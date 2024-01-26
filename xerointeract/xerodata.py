@@ -73,18 +73,26 @@ def XeroRefreshToken():
 
     return [json_response['access_token'], json_response['refresh_token']]
 
-def XeroRequests(request_title, tenant_name = None):
+def XeroRequests(request_title, tenant_name=None):
     print(f"Requesting for {tenant_name}")
     new_tokens = XeroRefreshToken()
     xero_tenant_id = XeroTenants(new_tokens[0], tenant_name)
     get_url = f'https://api.xero.com/api.xro/2.0/{request_title}'
-    response = requests.get(get_url, headers ={'Authorization': 'Bearer ' + new_tokens[0],'Xero-tenant-id': xero_tenant_id,'Accept': 'application/json'})
+    response = requests.get(get_url, headers={
+        'Authorization': 'Bearer ' + new_tokens[0],
+        'Xero-tenant-id': xero_tenant_id,
+        'Accept': 'application/json'
+    })
     json_response = response.json()
-    file_title = request_title.replace("/", "-")
+    
+    # Extract file title from request_title
+    file_title = request_title.split('?')[0].replace("/", "-")
+    
     if tenant_name:
         file_path = f'xerooutput\\{tenant_name}\\{file_title}.json'
     else:
         file_path = f'xerooutput\\{file_title}.json'
+    
     with open(file_path, 'w') as file:
         json.dump(json_response, file)
 

@@ -1,4 +1,4 @@
-all_orgs = ['Abbotsford Preparatory School','Ashley Manor Prep School','Beechwood School',
+all_orgs = ['Alpha Schools (Holdings)','Abbotsford Preparatory School','Ashley Manor Prep School','Beechwood School',
 'Chadderton Preparatory Grammar School','Clevelands Prep School','Lady Lane Park School',
 'Lucton School','Moor Allerton Prep School','Prebendal School','Sackville School',
 'Sherrardswood School','St Edwards Senior School','St James School','St Martins Prep School',

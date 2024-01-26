@@ -1,29 +1,19 @@
 from xerointeract.tokenmanage import MySQLaccess
 from xerointeract.xerodata import XeroRequests, XeroFirstAuth
-from xerointeract.selectorg import select_org
-from analyse import begin_analysis
+from xerointeract.selectorg import select_org, select_org2
+from analyse import begin_invoice_analysis
 import pandas as pd
 
-available_orgs = ['Abbotsford Preparatory School','Ashley Manor Prep School','Beechwood School',
-'Chadderton Preparatory Grammar School','Clevelands Prep School','Lady Lane Park School',
-'Lucton School','Moor Allerton Prep School','Prebendal School','Sackville School',
-'Sherrardswood School','St Edwards Senior School','St James School','St Martins Prep School',
-'The Chalfonts','Trinity School','Wellesley Haddon Dene School','Wellow House','Wycombe Preparatory School']
+from settings import available_orgs
 
 
 # available_orgs = ['Abbotsford Preparatory School', 'Chadderton Preparatory Grammar School', 'Beechwood School', 'Trinity School']
 
 def launch_request():   
     request_title = input("Title of request: ")
-    single = input("Single or multiple requests? (s/m): ")
-    if single == 's':
-        org = select_org(available_orgs)
-        if input("Continue? (y/n): ") != 'y':
-            exit()
+    for org in select_org2(available_orgs):
         XeroRequests(request_title, org)
-    else:
-        for org in available_orgs:
-            XeroRequests(request_title, org)
+
 
 def analyse():
     single = input("Single or multiple requests? (s/m): ")
@@ -31,11 +21,11 @@ def analyse():
         org = select_org(available_orgs)
         if input("Continue? (y/n): ") != 'y':
             exit()
-        begin_analysis(org)
+        begin_invoice_analysis(org)
     else:
         rez = []
         for org in available_orgs:
-            rez.append(begin_analysis(org))
+            rez.append(begin_invoice_analysis(org))
         print(rez)
         # Convert to pandas dataframe
         df = pd.DataFrame(rez, columns=['School', 'Total', 'Paid', 'Due', 'Credited'])
@@ -49,10 +39,10 @@ def analyse():
 
 
 if __name__ == '__main__':
-    # pass
     # XeroFirstAuth()
-    # launch_request()
-    analyse()
+    launch_request()
+    # analyse()
+    pass
 
 
 
